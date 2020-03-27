@@ -18,7 +18,7 @@ public class SearchServiceImpl implements SearchService {
 	public String addInfo(String origin) {
 		esRepo.saveAll(Collections.EMPTY_LIST);
 		return "ok";
-	}
+	}   
 
 	@Override
 	public String searchInfo(String cond) {
