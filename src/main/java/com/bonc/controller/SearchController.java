@@ -25,5 +25,12 @@ public class SearchController {
 		sService.addInfo(info);
 		return "html/searchPage";
 	}
+
+	@RequestMapping({"/addAndSearch"})
+	@ResponseBody
+	public String addAndSearch(String info, String cond) {
+		sService.addInfo(info);
+		return sService.searchInfo(cond);
+	}
 	
 }

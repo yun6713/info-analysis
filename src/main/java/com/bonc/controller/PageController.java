@@ -14,4 +14,9 @@ public class PageController {
 	public String addInfoPage() {
 		return "html/addInfoPage";
 	}
+
+	@RequestMapping("/addAndSearch")
+	public String addAndSearch() {
+		return "html/addAndSearch";
+	}
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>addInfoPage</title>
+<script src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id='addAndSearch'>
+		<form action="search/addInfo" method="post">
+			<textarea rows="30" cols="130" autofocus id="info"></textarea>
+			<br/><input type="text" name="search" id="cond" placeholder="查询条件"/>
+			<br/><input type="button" id="submit" value="查询"/>
+		</form>
+	</div>
+	<div id='search'>
+		<input type="text" name="search" id="cond2" placeholder="查询条件"/>
+		<br/><input type="button" id="submit2" value="查询"/>
+	</div>
+	<div id="search_result"></div>
+<script>
+	$("#submit").click(handleSubmit());
+	$("#submit2").click(handleSubmit(2));
+	function handleSubmit(type){
+		let urlSuffix, args;
+		if(type==2){
+			urlSuffix="/search";
+			args={'cond':$("#cond").val()};
+		}else{
+			urlSuffix="/search/addAndSearch";
+			args={'info':$("#info").val(), 'cond':$("#cond").val()};
+		}
+		//清空之前的数据
+		$("#search_result").html("");
+		//ajax查询
+		$.ajax({
+			url: window.location.origin+urlSuffix,
+			async:true,
+			//dataType:"json",//返回数据类型
+			type:"POST",
+			username:"a",//basic验证
+			password:"b",
+			data: args,
+			success:function(info){
+				let html = info2Html(info);
+				console.log(html);
+				$("#search_result").html(html);
+			},
+			error:function(xhr,msg,excp){
+				console.log(xhr,msg,excp);
+				alert("Error!");
+			}
+		});		
+	}
+	function info2Html(info){
+		let objs = JSON.parse(info);
+		let content = objs.map(function(val, index, arr){
+			return `<tr>
+						<td>${val.date}</td>
+						<td>${val.info}</td>
+					</tr>`;
+		}).join();
+		return `<table border="1">${content}</table>`;
+	}
+	
+</script>
+</body>
+</html>

@@ -25,7 +25,7 @@ public class PathPrintCommandRunner implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		LOG.info(addr);
-		browse1(addr+"addInfoPage");
+		browse1(addr+"addAndSearch");
 		
 	}
 	
