@@ -3,8 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <title>searchPage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="/js/jquery.min.js"></script>
 </head>
 <body>
-searchPage
+	<div>
+		<input type="text" name="search" id="cond" placeholder="查询条件"/><br/>
+		<input type="button" id="submit" value="查询"/>
+	</div>
+	<div id="search_result"></div>
+<script>
+	$("#submit").click(function(){	
+		//清空之前的数据
+		$("#search_result").html("");
+		//ajax查询
+		$.ajax({
+			url: window.location.origin+"/search",
+			async:true,
+			//dataType:"json",//返回数据类型
+			username:"a",//basic验证
+			password:"b",
+			data: {'cond':$("#cond").val()},
+			success:function(info){
+				let html = info2Html(info);
+				console.log(html);
+				$("#search_result").html(html);
+			},
+			error:function(xhr,msg,excp){
+				console.log(xhr,msg,excp);
+				alert("Error!");
+			}
+		});		
+	});
+	
+	function info2Html(info){
+		let objs = JSON.parse(info);
+		let content = objs.map(function(val, index, arr){
+			return `<tr>
+						<td>${val.date}</td>
+						<td>${val.info}</td>
+					</tr>`;
+		}).join();
+		return `<table border="1">${content}</table>`;
+	}
+	
+</script>
 </body>
 </html>

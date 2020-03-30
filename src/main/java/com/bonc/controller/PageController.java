@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageController {
 	@RequestMapping("/searchPage")
 	public String searchPage() {
-		return "html/searchPage.html";
+		return "html/searchPage";
 	}
 
 	@RequestMapping("/addInfoPage")

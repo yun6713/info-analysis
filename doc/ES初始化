@@ -1,0 +1,19 @@
+1，建立索引
+	PUT  http://localhost:9200/qq_info_01
+2，建立文档
+	POST http://localhost:9200/qq_info_01/info/_mapping
+	{
+	  "properties": {
+	    "date": {
+	      "type": "text",
+	      "analyzer": "ik_max_word"
+	    },
+	    "info": {
+	      "type": "text",
+	      "analyzer": "ik_max_word"
+	    },
+	    "flag": {
+	      "type": "keyword"
+	    }
+	  }
+	}
