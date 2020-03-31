@@ -4,31 +4,71 @@
 <meta charset="UTF-8">
 <title>addInfoPage</title>
 <script src="/js/jquery.min.js"></script>
+<style>
+	[type=text] {
+		width:850px;
+	}
+	
+	[type=button] {
+		width:150px;
+	}
+</style>
 </head>
 <body>
 	<div id='addAndSearch'>
 		<form action="search/addInfo" method="post">
 			<textarea rows="30" cols="130" autofocus id="info"></textarea>
-			<br/><input type="text" name="search" id="cond" placeholder="查询条件"/>
-			<br/><input type="button" id="submit" value="查询"/>
+			<br/><input type="text" name="search" id="cond" width='200px' placeholder="查询条件"/>
+			<br/>
+			<div>
+				<input type="button" id="submit" value="增加并查询"/> 
+				<input type="button" id="showSearch" value="查询界面"/>
+			</div>
 		</form>
 	</div>
-	<div id='search'>
-		<input type="text" name="search" id="cond2" placeholder="查询条件"/>
-		<br/><input type="button" id="submit2" value="查询"/>
+	<div id='search' hidden='true'>
+		<input type="text" name="search" id="cond2" width='200px' placeholder="查询条件"/>
+		<br/>
+		<div>
+			<input type="button" id="submit2" value="查询"/> 
+			<input type="button" id="showAddAndSearch" value="增加并查询界面"/>
+		</div>
 	</div>
 	<div id="search_result"></div>
 <script>
-	$("#submit").click(handleSubmit());
-	$("#submit2").click(handleSubmit(2));
+	$(function(){
+		
+	});
+	
+	$("#submit").click(function(){
+		handleSubmit('addAndSearch');
+	});
+	
+	$("#showSearch").click(function(){
+		switch2Page('search');
+	});
+	
+	$("#submit2").click(function(){
+		handleSubmit('search');
+	});
+	
+	$("#showAddAndSearch").click(function(){
+		switch2Page('addAndSearch');
+	});
+	
 	function handleSubmit(type){
 		let urlSuffix, args;
-		if(type==2){
+		if(type=='search'){
 			urlSuffix="/search";
-			args={'cond':$("#cond").val()};
-		}else{
+			args={'cond':$("#cond2").val()};
+		}else if(type=='addAndSearch'){
 			urlSuffix="/search/addAndSearch";
-			args={'info':$("#info").val(), 'cond':$("#cond").val()};
+			let cond = $("#cond").val();
+			$("#cond2").val(cond);
+			args={'info':$("#info").val(), 'cond':cond};
+		}else{
+			alert('Type Error');
+			return;
 		}
 		//清空之前的数据
 		$("#search_result").html("");
@@ -43,7 +83,8 @@
 			data: args,
 			success:function(info){
 				let html = info2Html(info);
-				console.log(html);
+				//console.log(html);
+				switch2Page('search');
 				$("#search_result").html(html);
 			},
 			error:function(xhr,msg,excp){
@@ -63,6 +104,16 @@
 		return `<table border="1">${content}</table>`;
 	}
 	
+	function switch2Page(type){
+		if(type == 'addAndSearch'){//显示查询
+			$('#search').hide();
+			$('#addAndSearch').show();
+		}else if(type == 'search'){//显示增加并查询
+			$('#addAndSearch').hide();
+			$('#search').show();
+		}
+		
+	}
 </script>
 </body>
 </html>

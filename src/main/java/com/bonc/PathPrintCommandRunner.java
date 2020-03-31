@@ -23,9 +23,13 @@ public class PathPrintCommandRunner implements CommandLineRunner{
 	@Value("http://${server.address:localhost}:${server.port:8080}/${server.servlet.context-path:}")
 	String addr;
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args){
 		LOG.info(addr);
-		browse1(addr+"addAndSearch");
+		try {
+			browse1(addr+"addAndSearch");
+		} catch (Exception e) {
+			LOG.error("Open browse error, info:{}", e);;
+		}
 		
 	}
 	
