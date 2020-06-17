@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.bonc.InfoAnalysisApplication;
 import com.bonc.entity.InfoEntity;
 import com.bonc.repo.SearchRepository;
 import com.bonc.service.SearchService;
@@ -22,7 +23,7 @@ public class SearchServiceImpl implements SearchService {
 	@Autowired
 	SearchRepository esRepo;
 	public static final String SEP_STR=Pattern.quote("白茶小助手(2077734456)");
-	public static final Pattern PATTERN = Pattern.compile(SEP_STR);
+	public static final Pattern PATTERN = Pattern.compile(InfoAnalysisApplication.SEP_STR);
 	@Override
 	public String addInfo(String origin) {
 		if(StringUtils.hasText(origin)) {
